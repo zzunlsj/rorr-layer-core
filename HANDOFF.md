@@ -26,6 +26,7 @@
 | 2026-11-18 | Jun + Claude | CLI: `origin/main` push · 두 레포 클론·대조 → CLAUDE.md §5 · docs/01~03 '이식 위치' · decisions D-013~D-019 · 레포 이름 표기 정정 |
 | 2026-11-18 | Jun + Claude | CLI: Notion 레포 목록대로 5개 레포 추가 클론 (`rorr-backend-ai` · `rorr-user-intent-router` · `rorr-socket-server` · `rorr-backend-api-v2` · `rorr-ollama-server`) → CLAUDE.md §1·§5 위치 갱신 · D-020 |
 | 2026-11-18 | Jun + Claude | CLI: 새 레포 동작 대조 → `docs/05-current-vs-target.md` 신규 · docs/01·02·04 '지금' · '이식 위치' 를 코드 기준으로 수정 · D-021~D-023 |
+| 2026-11-18 | Jun + Claude | Notion 에 개발자 검토 자료 등록 — 방향성 페이지 맨 위 참고 콜아웃 + 하위 문서 5개 (허브 · L2 · L3 · L4 · Energy). 링크는 `docs/sources.md` |
 
 ## CLI 인계 (2026-11-18 — Cowork 세션 → Claude Code CLI)
 
