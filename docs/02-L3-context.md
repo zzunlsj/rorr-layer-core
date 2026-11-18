@@ -40,6 +40,23 @@
 L4로 넘기는 묶음에 다음을 추가: `lenses · narratives · teams(side→팀 코드) · data_scope("2026") · sources · cost_krw · outcome`.
 `outcome` 은 Energy 판단의 유일한 입력이다 — `answered · no_data · l3_failed · off_domain · clarify · system_error`.
 
+### 5) `muse_cue` — 서하에게 넘기는 재료 — `l3/muse_cue.py` · `contracts/muse_cue.schema.json` (D-035)
+묶음에 `muse_cue` 를 같이 싣는다. 리포트용으로 이미 계산한 lens 에서 **방향과 종류만** 뽑는다 — 추가 조회 · LLM 호출이 없다.
+
+| 필드 | 값 | 어디서 |
+|---|---|---|
+| `polarity` · `subject` · `counterpart` · `question_form` | 주어 관점 | L2 `RouteResult` |
+| `turning` | `teamfight` · `objective` · `none` · `unknown` | 한타 승률 변곡점이 있으면 teamfight, 없고 오브젝트 스윙이 있으면 objective |
+| `phase` | `early` · `mid` · `late` · `unknown` | 변곡점 시각 — 14분 전 · 25분 전 · 그 뒤 |
+| `trend` | `sudden_drop` · `sudden_rise` · `slow_drop` · `slow_rise` · `even` · `unknown` | 변곡점 방향, 없으면 처음 ↔ 끝 차이(15%p) |
+| `has_narrative` · `has_report` | bool | 서사 카드 · lens 유무 |
+| `outcome` · `ref` | 묶음과 같은 값 · 턴/경기 식별자 | Muse 메시지의 `cue_ref` 가 `ref` 를 가리킨다 |
+
+- **숫자형 필드가 없다.** 승률 · 골드 · 시각을 싣지 않으므로 서하 대사에 수치가 들어갈 길이 없다.
+- **유저별 정보가 없다.** 친밀도 · Fan심 · 감정은 페르소나 경로가 붙인다 — 그래서 리포트와 같은 키로 캐시할 수 있다.
+- **웹 리포트 봉투로는 가지 않는다.** 읽는 쪽은 페르소나 경로(웹 SD 첨언 · 확장 대사)다.
+- 답하지 못한 경우(`no_data` · `off_domain` 등)에도 만든다 — 서하가 그 상황에 맞게 반응할 수 있게.
+
 ## 이식 위치 (2026-11-18 대조 — 코드 확인)
 
 `piecomp/l3-R-D` 는 측정 하니스라 여기에 이식하지 않는다. 실서비스 L3 는 `piecomp/rorr-backend-ai` 다. 현황 전체는 `docs/05-current-vs-target.md` §4.
@@ -70,4 +87,5 @@ L4로 넘기는 묶음에 다음을 추가: `lenses · narratives · teams(side�
 - [ ] Worlds 4강·결승 경기 배치 실행 → match_report_lens 행 생성
 - [ ] 배치 lens 만 쓰는 질문은 query_cost 로그의 sonnetCalls = 0
 - [ ] 정답셋에 해석 카테고리 '왜' 질문 20건 이상 추가
+- [ ] 목업 Q1 → `muse_cue` 가 `loss · teamfight · mid · sudden_drop`, 숫자형 값 0개 (`tests/test_muse.py`)
 - [ ] 0행 결과는 캐시에 저장하지 않는다 (현재 L3 진단의 문제 — 별건이지만 같이 확인)

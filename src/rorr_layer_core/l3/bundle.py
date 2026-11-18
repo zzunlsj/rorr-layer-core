@@ -1,7 +1,8 @@
 """L3 → L4 묶음(L3Bundle) 조립.
 
 L3의 기존 일(쿼리 생성·실행)은 그대로 두고, 그 결과에
-① 사실 행(facts) ② RORR 분석(lens) ③ 서사 카드 ④ 데이터 범위 ⑤ 출처 ⑥ 원가 ⑦ outcome 을 붙인다.
+① 사실 행(facts) ② RORR 분석(lens) ③ 서사 카드 ④ 데이터 범위 ⑤ 출처 ⑥ 원가 ⑦ outcome ⑧ muse_cue 를 붙인다.
+muse_cue 는 서하용 재료다 — 웹 리포트 봉투로는 가지 않고 페르소나 경로가 읽는다 (D-026).
 outcome 은 Energy 차감 판단에 쓰인다 (energy.py).
 """
 from __future__ import annotations
@@ -10,6 +11,7 @@ from typing import Any, Optional
 
 from ..contracts import L3Bundle, Lens, LensValue, NarrativeRef, RouteResult
 from .lenses import LENSES, estimated_cost_krw, plan_lenses
+from .muse_cue import build_muse_cue
 
 
 def lens_from_report(lens_id: str, report: dict[str, Any], labels: Optional[dict[str, str]] = None) -> Optional[Lens]:
@@ -38,10 +40,11 @@ def assemble(route: RouteResult, facts_kind: Optional[str], facts_rows: list[dic
              facts_meta: Optional[dict[str, Any]] = None, report: Optional[dict[str, Any]] = None,
              extra_lenses: Optional[list[Lens]] = None, narratives: Optional[list[NarrativeRef]] = None,
              teams: Optional[dict[str, str]] = None, cache_hit: bool = False,
-             swing_labels: Optional[dict[str, str]] = None) -> L3Bundle:
+             swing_labels: Optional[dict[str, str]] = None, cue_ref: Optional[str] = None) -> L3Bundle:
     if route.path != "answer":
         outcome = "off_domain" if route.null_reason in ("off_domain", "not_answered") else "clarify"
-        return L3Bundle(route=route, facts_kind=None, outcome=outcome)
+        return L3Bundle(route=route, facts_kind=None, outcome=outcome,
+                        muse_cue=build_muse_cue(route, [], outcome, ref=cue_ref))
 
     specs = plan_lenses(route.intent, has_game=report is not None)
     lenses: list[Lens] = []
@@ -58,4 +61,5 @@ def assemble(route: RouteResult, facts_kind: Optional[str], facts_rows: list[dic
         route=route, facts_kind=facts_kind, facts_rows=facts_rows, facts_meta=facts_meta or {},
         lenses=lenses, narratives=narratives or [], teams=teams or {}, data_scope="2026",
         sources=sources, cost_krw=estimated_cost_krw(specs, cache_hit), outcome=outcome,
+        muse_cue=build_muse_cue(route, lenses, outcome, has_narrative=bool(narratives), ref=cue_ref),
     )

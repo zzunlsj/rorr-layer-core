@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "L3 → 페르소나 경로 MuseCue (muse-cue-v1.0)",
+  "description": "서하 대사의 재료. 값이 아니라 방향과 종류만 싣는다 — 숫자형 필드가 없다 (3채널 UX 원칙 · D-026). 유저별 정보(친밀도 · Fan심 · 감정)는 없다 — 페르소나 경로가 붙인다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "outcome",
+    "polarity",
+    "turning",
+    "phase",
+    "trend",
+    "has_narrative",
+    "has_report"
+  ],
+  "properties": {
+    "version": {
+      "const": "muse-cue-v1.0"
+    },
+    "ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "이 cue 가 나온 턴 · 경기 식별자. Muse 메시지의 cue_ref 가 가리킨다"
+    },
+    "outcome": {
+      "enum": [
+        "answered",
+        "no_data",
+        "l3_failed",
+        "off_domain",
+        "clarify",
+        "system_error"
+      ]
+    },
+    "question_form": {
+      "enum": [
+        "what",
+        "why",
+        "how",
+        "when",
+        "compare"
+      ]
+    },
+    "polarity": {
+      "enum": [
+        "win",
+        "loss",
+        "neutral"
+      ],
+      "description": "질문이 전제한 결과 (주어 관점)"
+    },
+    "subject": {
+      "$ref": "#/$defs/entity",
+      "description": "질문의 주어. id 는 Fan심 대조(응원 팀인가)에만 쓴다"
+    },
+    "counterpart": {
+      "$ref": "#/$defs/entity"
+    },
+    "turning": {
+      "enum": [
+        "teamfight",
+        "objective",
+        "none",
+        "unknown"
+      ],
+      "description": "어디서 갈렸나. teamfight = 한타 승률 변곡점이 있다 / objective = 변곡점은 없고 오브젝트 스윙이 있다 / none = 흐름은 봤는데 갈린 지점이 없다 / unknown = 볼 재료가 없다"
+    },
+    "phase": {
+      "enum": [
+        "early",
+        "mid",
+        "late",
+        "unknown"
+      ],
+      "description": "갈린 시점 — 초반(14분 전) · 중반(25분 전) · 후반. 시각 값은 싣지 않는다"
+    },
+    "trend": {
+      "enum": [
+        "sudden_drop",
+        "sudden_rise",
+        "slow_drop",
+        "slow_rise",
+        "even",
+        "unknown"
+      ],
+      "description": "주어 관점 흐름의 방향"
+    },
+    "has_narrative": {
+      "type": "boolean",
+      "description": "역대 맥락 카드가 붙었는가"
+    },
+    "has_report": {
+      "type": "boolean",
+      "description": "가리킬 웹 리포트(RORR 분석)가 있는가"
+    }
+  },
+  "$defs": {
+    "entity": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "display"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

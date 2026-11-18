@@ -107,6 +107,10 @@
     "sources": {
       "type": "array"
     },
+    "muse_cue": {
+      "$ref": "muse_cue.schema.json",
+      "description": "서하에게 넘기는 숫자 없는 재료. 웹 리포트 봉투로는 가지 않는다"
+    },
     "cost_krw": {
       "type": "number"
     },

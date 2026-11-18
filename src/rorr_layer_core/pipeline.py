@@ -10,7 +10,7 @@ from __future__ import annotations
 from datetime import date
 from typing import Any, Optional
 
-from .contracts import AnswerEnvelope
+from .contracts import AnswerEnvelope, L3Bundle
 from .l2.route_v2 import enrich
 from .l3.bundle import assemble
 from .l3.match_report import build_match_report
@@ -18,8 +18,8 @@ from .l3.narrative import NarrativeFact, NarrativeStore
 from .l4.envelope import build
 
 
-def run(fixture: dict[str, Any], draft_key: str = "draft_good", entry: str = "typed",
-        today: Optional[date] = None) -> AnswerEnvelope:
+def run_bundle(fixture: dict[str, Any], today: Optional[date] = None) -> L3Bundle:
+    """L2 → L3 까지. 웹 리포트(build)와 서하(muse_cue)가 같은 묶음에서 갈라진다."""
     game = fixture.get("game")
     route = enrich(fixture["raw_route"], fixture["question"], fixture.get("page_context"),
                    has_match_context=game is not None)
@@ -35,5 +35,11 @@ def run(fixture: dict[str, Any], draft_key: str = "draft_good", entry: str = "ty
 
     bundle = assemble(route, fixture.get("facts_kind"), fixture.get("facts_rows", []),
                       facts_meta=fixture.get("facts_meta"), report=report, narratives=narratives,
-                      teams=(game or {}).get("teams", {}), swing_labels=(game or {}).get("swing_labels"))
-    return build(bundle, fixture.get(draft_key, {}), entry=entry)
+                      teams=(game or {}).get("teams", {}), swing_labels=(game or {}).get("swing_labels"),
+                      cue_ref=(game or {}).get("game_id"))
+    return bundle
+
+
+def run(fixture: dict[str, Any], draft_key: str = "draft_good", entry: str = "typed",
+        today: Optional[date] = None) -> AnswerEnvelope:
+    return build(run_bundle(fixture, today), fixture.get(draft_key, {}), entry=entry)

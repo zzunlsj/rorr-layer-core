@@ -9,9 +9,16 @@ from dataclasses import asdict, dataclass, field
 from typing import Any, Literal, Optional
 
 CONTRACT_VERSION = "ask-v2.0"
+MUSE_CUE_VERSION = "muse-cue-v1.0"
+MUSE_MESSAGE_VERSION = "muse-v1.0"
 
 QuestionForm = Literal["what", "why", "how", "when", "compare"]
 Polarity = Literal["win", "loss", "neutral"]
+Turning = Literal["teamfight", "objective", "none", "unknown"]
+Phase = Literal["early", "mid", "late", "unknown"]
+Trend = Literal["sudden_drop", "sudden_rise", "slow_drop", "slow_rise", "even", "unknown"]
+MuseKind = Literal["reply", "echo", "proactive"]
+MuseSurface = Literal["extension", "web_sd"]
 BlockName = Literal["lead", "history", "facts", "lens", "evidence", "next"]
 
 
@@ -86,6 +93,45 @@ class NarrativeRef:
 
 
 @dataclass
+class MuseCue:
+    """L3 → 페르소나 경로. 서하 대사의 재료 — 방향과 종류만, 숫자형 필드 없음 (D-026).
+
+    유저별 정보(친밀도 · Fan심 · 감정)는 여기에 없다. 페르소나 경로가 붙인다.
+    """
+    outcome: str
+    polarity: Polarity = "neutral"
+    question_form: QuestionForm = "what"
+    subject: Optional[dict[str, str]] = None      # {id, display} — id 는 Fan심 대조용
+    counterpart: Optional[dict[str, str]] = None
+    turning: Turning = "unknown"                  # 어디서 갈렸나
+    phase: Phase = "unknown"                      # 언제 갈렸나 (초 · 중 · 후반)
+    trend: Trend = "unknown"                      # 주어 관점 흐름
+    has_narrative: bool = False
+    has_report: bool = False                      # 가리킬 웹 리포트가 있는가
+    ref: Optional[str] = None                     # MuseMessage.cue_ref 가 가리키는 값
+    version: str = MUSE_CUE_VERSION
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class MuseMessage:
+    """페르소나 경로 → 확장 · 웹 SD 서하. 웹 리포트 봉투와 따로 온다 (D-025 · D-026)."""
+    kind: MuseKind                                # reply | echo(웹 검색 뒤 첨언) | proactive(선발화)
+    surface: MuseSurface
+    text: str                                     # 숫자 · 지표명 · 충전 권유 금지
+    expression: Optional[dict[str, Any]] = None   # {code, variant, intensity} — Affect Engine
+    action: Optional[dict[str, Any]] = None       # {code, variant}
+    cue_ref: Optional[str] = None                 # echo 는 필수
+    tier: str = "T1"                              # T1 템플릿 | T2 페르소나 LLM
+    version: str = MUSE_MESSAGE_VERSION
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
 class L3Bundle:
     """L3 → L4. 조회 결과 + 분석 + 서사 + 출처 + 원가."""
     route: RouteResult
@@ -99,6 +145,7 @@ class L3Bundle:
     sources: list[str] = field(default_factory=list)
     cost_krw: float = 0.0
     outcome: str = "answered"                     # energy.OUTCOMES
+    muse_cue: Optional[MuseCue] = None            # 서하용 재료 — 웹 리포트 봉투로는 안 간다
 
 
 @dataclass

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "페르소나 경로 → 확장 · 웹 SD 서하 MuseMessage (muse-v1.0)",
+  "description": "서하 한마디가 화면으로 가는 모양. 웹 리포트 봉투(ask-v2.0)와 따로 온다 (D-025 · D-026). 확장의 서하 대사와 웹의 SD 서하 첨언이 같은 모양을 쓴다. Energy 를 차감하지 않는다. 실서비스에서는 지금의 room:message / affect:update 가 이 자리다.",
+  "type": "object",
+  "required": [
+    "version",
+    "kind",
+    "surface",
+    "text"
+  ],
+  "properties": {
+    "version": {
+      "const": "muse-v1.0"
+    },
+    "kind": {
+      "enum": [
+        "reply",
+        "echo",
+        "proactive"
+      ],
+      "description": "reply = 확장에서 유저 발화에 답함 / echo = 웹 검색 뒤 SD 서하의 첨언 (확장이 같이 켜져 있을 때만) / proactive = 선발화"
+    },
+    "surface": {
+      "enum": [
+        "extension",
+        "web_sd"
+      ]
+    },
+    "text": {
+      "type": "string",
+      "description": "서하 대사. 숫자 · 지표명 금지, 충전 · Boost 권유 금지 (G8 · no_dependency)"
+    },
+    "expression": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Affect Engine 이 정한 표정 — 실서비스 presentation.expression 모양",
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string"
+        },
+        "intensity": {
+          "type": "number"
+        }
+      }
+    },
+    "action": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "행동 — 실서비스 presentation.action 모양",
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string"
+        }
+      }
+    },
+    "cue_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "재료가 된 MuseCue.ref. echo 는 필수 — 어느 검색에 붙는 첨언인지 웹이 알아야 한다"
+    },
+    "tier": {
+      "enum": [
+        "T1",
+        "T2"
+      ],
+      "description": "T1 = 템플릿 (LLM 0) / T2 = 페르소나 LLM"
+    }
+  }
+}

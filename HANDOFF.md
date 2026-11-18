@@ -5,7 +5,7 @@
 ## 지금 상태 (2026-11-18)
 
 - 방향성 확정: **1 Energy(₩120)를 낼 만한 '왜'를 설명하는 해설** · 답변 구조 ①결론 Ⓗ역대맥락 ②사실 ③RORR분석 ④근거·다음
-- 기준 코드: L2 후처리 · L3 경기 종료 배치/서사 카드/묶음 · L4 표기 사전/가드레일/봉투 · Energy 규칙 — **테스트 26개 통과**
+- 기준 코드: L2 후처리 · L3 경기 종료 배치/서사 카드/묶음 · L4 표기 사전/가드레일/봉투 · Energy 규칙 — **테스트 32개 통과**
 - **레포 대조 (2026-11-18)**: `piecomp/l3-R-D` · `piecomp/rorr-ask-renderer` 를 `rorr-repos/` 에 클론해 대조했다. 결과는 `CLAUDE.md §5` · `docs/01~03` '이식 위치' · `docs/decisions.md` D-013~D-019.
   - **L4 는 확정** — `rorr-ask-renderer` 의 `formatter.py` · `prompts.py` · `app.py`. 다만 현행은 kind 3종 · 응답 `{title, text, viz}` 로 Notion 기준과 다르다 (D-014).
   - **L3 · L2 레포를 찾아 동작까지 대조했다 (D-020~D-023)** — Notion '대화레이어시스템 github 정리' 의 6개 레포를 `rorr-repos/` 에 클론. 결과는 **`docs/05-current-vs-target.md`** (층별 지금 동작 · 목업까지 바꿀 것 · 순서).
@@ -13,12 +13,12 @@
   - **운영 L3 는 이미 `md` 모드** (Sonnet 4.6 agent). 원가 · 지연 측정값은 다시 재야 한다 (D-021).
   - **Energy**: 코드상 데이터 없음 · 롤 밖 질문도 차감되는 것으로 읽힌다 — 운영 로그 확인 필요 (D-023).
 - **채널 전체 방향 (2026-11-18)**: Muse 쪽 Notion 문서(레이어 허브 · 3채널 원칙 · 발화 · 친밀도 · Fan심 · Web/Extension 초안)와 대조했다 → **`docs/06-channels-and-muse.md`** · D-024~D-031.
-  - 층 구조는 유지. **봉투는 플랫폼별로 묶는다 (Jun 확정)** — 웹 = Energy 받는 리포트 봉투(ask-v2.0, `muse` 없음), 확장 = 비용 0 의 Muse 메시지. 웹의 서하 한 줄은 확장이 같이 켜졌을 때 SD 서하가 덧붙이는 별도 메시지 (D-025 · D-026). 계약 · `contracts.py` · `emit_answer` · 봉투 검사에서 `muse` 를 뺐다. **L3 깊이도 채널별** — 확장은 쿼리 1개 · 낮춘 모델, 웹은 사실 + lens 3종 이상 (D-034). 남은 비용 질문은 D-033.
+  - 층 구조는 유지. **봉투는 플랫폼별로 묶는다 (Jun 확정)** — 웹 = Energy 받는 리포트 봉투(ask-v2.0, `muse` 없음), 확장 = 비용 0 의 Muse 메시지. 웹의 서하 한 줄은 확장이 같이 켜졌을 때 SD 서하가 덧붙이는 별도 메시지 (D-025 · D-026). 계약 · `contracts.py` · `emit_answer` · 봉투 검사에서 `muse` 를 뺐다. 서하 쪽 계약은 **`muse_cue`(L3 가 넘기는 숫자 없는 재료) · Muse 메시지(서하 한마디의 모양)** 로 따로 뒀다 (D-035) — `python scripts/demo.py --cue`. **L3 깊이도 채널별** — 확장은 쿼리 1개 · 낮춘 모델, 웹은 사실 + lens 3종 이상 (D-034). 남은 비용 질문은 D-033.
   - **기준은 기능 명세서, 현행 코드는 임시 (D-032, Jun 확정).** 그래서 서하 수치 금지(D-027) · 친밀도 명세 모델(D-028)은 명세 쪽으로 방향 확정. 과도기 처리와 세부 수치만 남았다.
   - **맥락 기억은 세 영역 다섯 칸** — 전체 공통 / Muse↔유저 단기 · 장기 / Ask RORR↔유저 단기 · 장기 (D-031). Notion 'Muse - 대화 History' 에 초안을 올렸다. 이 레포에 걸리는 곳은 L2 슬롯 기본값(이어 묻기)과 턴 레코드(`gist` · `card_ref`) 둘이다.
   - `game_end` 를 받는 Kafka 컨슈머를 `rorr-backend-api-v2` 에서 찾았다 — 배치 자리 후보 (D-029).
 - **계약은 고치지 않았다.** v2 봉투 · L3Bundle 을 현행 `GenRequest` / `viz` 에 어떻게 얹을지가 미결이다 (D-015 · D-016).
-- **로컬 환경**: 시스템 Python 은 3.9.6 뿐이라 `.venv` (3.9 + pytest)로 테스트를 돌린다 — `.venv/bin/python -m pytest -q`. `pyproject.toml` 은 3.11 이상을 요구하지만 지금 코드는 3.9 에서 26개 모두 통과한다.
+- **로컬 환경**: 시스템 Python 은 3.9.6 뿐이라 `.venv` (3.9 + pytest)로 테스트를 돌린다 — `.venv/bin/python -m pytest -q`. `pyproject.toml` 은 3.11 이상을 요구하지만 지금 코드는 3.9 에서 32개 모두 통과한다.
 
 ## 이력
 
@@ -35,6 +35,7 @@
 | 2026-11-18 | Jun + Claude | CLI: 웹 · 확장 두 채널 기준으로 방향 재검토 — Muse Notion 문서 7개 + affect · game-event · ollama 코드 대조 → `docs/06-channels-and-muse.md` 신규 · D-024~D-031 · sources 링크 |
 | 2026-11-18 | Jun + Claude | CLI: Jun 방향 반영 — 명세가 기준 · 코드는 임시(D-032) · 플랫폼별 봉투(D-025 · D-026) · L3 깊이 채널별(D-034) · 맥락 기억 세 영역(D-031). Notion 'Muse - 대화 History' 에 기억 구조 초안 작성 |
 | 2026-11-18 | Jun + Claude | CLI: D-025 · D-026 확정 — 웹 리포트 봉투에서 `muse` 제거 (`answer_envelope.schema.json` · `contracts.py` · `l4/envelope.py` · `l4/prompt.py` · `l4/guardrails.py` · fixture · 테스트 · docs 00 · 03 · 06). G8 `check_muse` 는 페르소나 경로용으로 남김 |
+| 2026-11-19 | Jun + Claude | CLI: `muse_cue` · Muse 메시지 계약 추가 (D-035) — `contracts/muse_cue.schema.json` · `muse_message.schema.json` · `l3/muse_cue.py` · `muse/message.py`(M1~M4) · `tests/test_muse.py` · docs 02 · 06. Notion 검토 자료를 Ask RORR 에서 전체 시스템(웹 · 확장 · Overlay) 검토로 다시 정리 |
 
 ## CLI 인계 (2026-11-18 — Cowork 세션 → Claude Code CLI)
 
@@ -58,7 +59,7 @@ CLI 첫 프롬프트 예시:
 0-1. [L4 담당 · 백엔드] **docs/05 §7 의 A 단계** — 계약 변경 없이 바로 가능: `text` 프로즈 가드레일(G2 · G3 · G5 · G7) · `outcome` 기준 Energy 반환
 0-2. [Jun] **레포 두 가지 더** — 웹 프런트(v2 봉투 렌더) · 확장 프런트(카드 자리 · 서하 반응 영역). 경기 종료 컨슈머는 후보를 찾았다 (D-029) — 거기에 붙일지 L3 담당과 확인
 0-3. [Jun] **D-033 · D-034 세부** — 웹으로 넘기는 문구 · qwen3 유지 여부 · 확장 얕은 조회의 모델과 시간 한도. D-025 · D-026 은 확정됐다 — D-015 · D-008 은 `muse` 없는 봉투와 `emit_answer` 를 전제로 정한다
-0-3a. [L3 담당 · 페르소나 경로] **`muse_cue` 와 Muse 메시지 계약** — L3 가 넘기는 숫자 없는 재료와 `{text, expression, action, cue_ref}` 모양. 아직 계약이 없다 (D-016 과 같이, docs/06 §4-1 · §8)
+0-3a. [페르소나 경로 담당 · L3 담당] **`muse_cue` → 서하 T1 템플릿** — 계약은 생겼다 (D-035). 남은 것: ① 템플릿 뱅크를 `polarity × turning × phase × trend × 친밀도` 로 쓰면서 값 목록 · 임계 손보기 ② 실서비스 `GenRequest` 에 `muse_cue` 자리 (D-016) ③ `room:message` 를 Muse 메시지 모양으로 · M1~M4 검사 이식 ④ 웹+확장 presence 판단
 0-4. [L3 담당] **확장용 얕은 조회 측정** — `l3-R-D` 로 정답셋 사실형만 골라 Haiku 급 `single` 의 방향 정확도 · 건당 비용 · 지연을 잰다 (D-034). 운영 Sonnet 4.6 agent 원가(D-021)와 같이 재면 비교가 된다
 1. [L4 담당과] D-017 충돌 3건 합의 (표 10행 접기 ↔ 전 행 · 진영 팀 코드 ↔ 블루/레드 · `text` 숫자) — 이식 전에 정해야 한다
 2. [L4 담당] `rorr-ask-renderer` `formatter.py` 에 `l4/glossary.py` + `l4/guardrails.py` 이식 → faker 로그 4개 문제(G1·G2·G3·G5) 재발 방지. 표 셀 변환은 이미 있고 **`text` 프로즈가 틈**이다 (docs/03 '가드레일 ↔ 이미 있는 코드')

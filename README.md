@@ -34,7 +34,7 @@ L2 · L3 · L4 층별 **구현 기준 문서 + 기준 코드 + 테스트**.
 
 ```bash
 python -m pip install -e ".[dev]"
-python -m pytest -q                 # 26 tests
+python -m pytest -q                 # 32 tests
 python scripts/demo.py              # 목업 Q1을 L2→L3→L4로 → 웹 봉투 JSON
 python scripts/demo.py --bad        # faker 로그 같은 초안 → 가드레일이 고치는 모습
 ```
@@ -42,7 +42,7 @@ python scripts/demo.py --bad        # faker 로그 같은 초안 → 가드레�
 ## 폴더
 
 ```
-contracts/   층 사이 JSON 스키마 (L2 route v2 · L3 bundle · answer envelope · narrative_fact)
+contracts/   층 사이 JSON 스키마 (L2 route v2 · L3 bundle · answer envelope · narrative_fact · muse_cue · muse_message)
 sql/         새 테이블 DDL (match_report_lens · narrative_fact) + 입력 조회
 src/         층별 기준 구현 (순수 함수, 외부 호출 없음)
 fixtures/    목업 Q1 데이터 · faker 질의 로그(2026-11-09) 발췌

@@ -112,11 +112,36 @@ flowchart TD
 - 확장의 서하는 qwen3 + 캐릭터 카드로 말한다. 웹의 서하를 다른 모델 · 다른 프롬프트가 쓰면 같은 캐릭터가 두 말투가 된다.
 - 웹의 서하는 한 줄 반응이라 T1 템플릿(극성 × 감정 코드 × 친밀도 단계)으로 충분하다 — LLM 0, 숫자가 들어갈 자리가 없어 G8 을 구조로 지킨다.
 
-**`muse_cue` — L3 가 서하에게 넘기는 숫자 없는 재료 (제안)**
+**`muse_cue` — L3 가 서하에게 넘기는 숫자 없는 재료 (D-035 · `contracts/muse_cue.schema.json` · `l3/muse_cue.py`)**
+
+목업 Q1("T1, BLG 4세트 왜 졌어?")에서 나오는 값 (`python scripts/demo.py --cue`):
 
 ```json
-{ "polarity": "loss", "subject": "T1", "turning": "objective", "trend": "widening", "has_narrative": true }
+{ "outcome": "answered", "polarity": "loss", "question_form": "why",
+  "subject": {"id": "…", "display": "T1"}, "counterpart": {"id": "…", "display": "BLG"},
+  "turning": "teamfight", "phase": "mid", "trend": "sudden_drop",
+  "has_narrative": true, "has_report": true, "ref": "WORLDS2026_SF_T1_BLG_G4" }
 ```
+
+"T1 이 졌고, 중반 한타 한 번에 확 넘어갔다" 까지만 안다. 판정 규칙과 필드 표는 `docs/02` §5.
+
+**Muse 메시지 — 서하 한마디가 화면으로 가는 모양 (D-035 · `contracts/muse_message.schema.json` · `muse/message.py`)**
+
+```json
+{ "version": "muse-v1.0", "kind": "echo", "surface": "web_sd", "tier": "T1",
+  "text": "아… T1 그 한타, 나도 보다가 숨 멈췄어.",
+  "expression": {"code": "…", "variant": "…"}, "action": {"code": "…"},
+  "cue_ref": "WORLDS2026_SF_T1_BLG_G4" }
+```
+
+| `kind` | 언제 | `surface` |
+|---|---|---|
+| `reply` | 확장에서 유저 발화에 답함 | `extension` |
+| `echo` | 웹 검색 뒤 SD 서하 첨언 — 확장이 같이 켜져 있을 때만 | `web_sd` |
+| `proactive` | 선발화 (§6) | `extension` |
+
+출력 검사 (대사를 누가 썼든 같은 규칙): **M1** 숫자 · 지표명(= G8, 팀 이름 "T1" 의 숫자는 제외) · **M2** 충전 · Boost 권유 · **M3** `echo` 인데 `cue_ref` 없음 · **M4** 웹 SD 가 `echo` 가 아닌 말을 함.
+`expression` · `action` 은 Affect Engine 이 정한 값을 그대로 싣는다 (실서비스 `presentation` 모양). 대사를 고르는 템플릿 뱅크는 페르소나 경로 것이라 이 레포에 없다.
 
 값이 아니라 **방향과 종류**만 싣는다. Fan심(주어가 응원 팀인가)과 친밀도는 개인 단계에서 붙인다.
 확장에서 유저가 "왜 밀리는 거야?" 라고 물었을 때도 같은 재료로 서하가 느낌을 말하고, `card` 는 패널 하이라이트 · 카드 연결로 나간다.
@@ -223,15 +248,15 @@ flowchart TD
 
 **Fan심 · 친밀도 신호** — "서하에게 질문"(`muse_question`)은 Fan심과 친밀도 양쪽 신호다. 웹 질문이 서하를 향한 것인지(친밀도) 정보 검색인지(Fan심만)는 명세에 없다 — 정해야 한다 (D-030).
 
-## 8. 이 레포에서 바뀌는 것 (제안 — 계약은 아직 고치지 않았다)
+## 8. 이 레포에서 바뀌는 것 (반영된 것은 표에 표시)
 
 | 대상 | 지금 | 바꿀 방향 | 결정 |
 |---|---|---|---|
 | `contracts/answer_envelope.schema.json` | 웹 리포트 봉투 (`lead · history · facts · lenses · evidence · next · energy`) — **`muse` 필드 제거 반영됨 (2026-11-18)** | 그대로. SD 서하 첨언은 별도 Muse 메시지 (§4-1) | D-025 확정 |
-| Muse 메시지 계약 (신규) | 없음 — 실서비스 `room:message` 모양 | `{text, expression, action, cue_ref}` · 웹 첨언과 확장 대사가 같은 모양 | D-026 |
+| Muse 메시지 계약 (신규) | `contracts/muse_message.schema.json` · `MuseMessage` · 검사 `muse/message.py` — **반영됨 (2026-11-19)** | 페르소나 경로 출력에 M1~M4 를 건다. 실서비스 `room:message` 를 이 모양으로 | D-035 |
 | `l4/prompt.py` `emit_answer` | `lead · sub · lens_insights · next` — **`muse` 제거 반영됨** | 그대로 — 해설 문장만 | D-026 확정 |
 | `l4/guardrails.py` G8 | `check_muse` 함수만 남고 봉투 검사(`run_all`)에서는 빠졌다 — **반영됨** | 페르소나 경로 출력 검사에 붙인다 (두 채널 공통 규칙) | D-026 확정 |
-| `contracts/l3_bundle.schema.json` | `facts · lenses · narratives · sources · cost · outcome` | `muse_cue` (숫자 없음) · 정리된 `summary`(집계 · 이름 한 가지 · 식별자 없음) 추가 | D-016 과 같이 |
+| `contracts/l3_bundle.schema.json` | `facts · lenses · narratives · sources · cost · outcome` + **`muse_cue` 반영됨 (2026-11-19, `l3/muse_cue.py`)** | 정리된 `summary`(집계 · 이름 한 가지 · 식별자 없음) 추가. 실서비스 전달 자리는 D-016 | D-035 · D-016 |
 | `l4/glossary.py` 정리 | L4 웹 코드 안 | L3Bundle 조립 직후(채널 분기 앞)로 — 확장도 같은 정리를 받는다 | D-016 과 같이 |
 | `contracts/l2_route_v2.schema.json` | 주어 · 극성 · question_form | + `context{page, entity}` 슬롯 기본값 (10/23 입력 계약) | D-005 와 같이 |
 | 턴 레코드 (신규) | 없음 | `gist` · `card_ref` · `surface` — 기억층 계약 | D-031 |
@@ -255,7 +280,7 @@ C 까지는 확장 UI 를 건드리지 않고 두 채널이 같이 좋아진다.
 | ID | 질문 | 왜 지금 |
 |---|---|---|
 | ~~D-025~~ | **확정 (2026-11-18)** — 봉투를 플랫폼별로 묶는다. 웹 리포트 봉투 / Muse 메시지 | 계약에서 `muse` 를 뺐다. D-015 는 이 모양을 전제로 정한다 |
-| ~~D-026~~ | **확정 (2026-11-18)** — SD 서하 첨언은 별도 Muse 메시지, 페르소나 경로가 T1 템플릿부터 쓴다 | 남은 것: `muse_cue` · Muse 메시지 계약 (D-016 과 같이). D-008 은 `muse` 없는 `emit_answer` 기준으로 정한다 |
+| ~~D-026~~ | **확정 (2026-11-18)** — SD 서하 첨언은 별도 Muse 메시지, 페르소나 경로가 T1 템플릿부터 쓴다 | `muse_cue` · Muse 메시지 계약은 D-035 로 반영. D-008 은 `muse` 없는 `emit_answer` 기준으로 정한다 |
 | D-033 | 웹 리포트로 넘기는 문구 · 자유 대화에 qwen3(GPU 고정비)를 계속 쓰는가 | 확장의 비용 범위가 여기서 정해진다 |
 | D-034 | L3 깊이를 채널별로 — 확장은 쿼리 1개 · 낮춘 모델, 웹은 사실 + lens 3종 이상 (Jun 방향). 남은 것: 확장 모델 · 시간 한도 · 확장 쿼리의 캐시 저장 여부 | `l3-R-D` 로 사실형 방향 정확도 · 비용을 잰 뒤 확정 (§4-2) |
 | D-027 | 확장 Q&A 에서 서하가 수치를 말하는가 · 단순 사실(스코어)은 예외인가 | 3채널 원칙과 현행 L4 가 반대다 |
