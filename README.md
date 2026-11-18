@@ -6,8 +6,9 @@ L2 · L3 · L4 층별 **구현 기준 문서 + 기준 코드 + 테스트**.
 - 목업: [Ask RORR 답변 고도화 목업](https://claude.ai/artifact/GkAP1m7xpHqFKSZwCfuFwt)
 - 방향성: Notion [Ask RORR 대화 퀄리티 고도화](https://app.notion.com/p/418bc2f961aa807082edd6e9d7a6ff56) → '답변 고도화 방향성'
 - 실서비스 코드는 각 층 레포에 있다. 이 레포는 그 레포들에 옮겨 넣을 **기준**이다.
-  - L2 · L3 → `piecomp/l3-R-D`
-  - L4 · 카드 렌더 → `piecomp/rorr-ask-renderer`
+  - L2 → Jev 라우터 레포 (미확인 — `docs/decisions.md` D-013)
+  - L3 → `rorr-backend-ai` (`src/chat/` · `src/rag/`) · 프롬프트·측정은 `piecomp/l3-R-D`
+  - L4 정형화 → `piecomp/rorr-ask-renderer` · 화면 렌더는 웹 프런트
 
 ## 답변 구조 (목업 = 계약)
 
@@ -24,8 +25,8 @@ L2 · L3 · L4 층별 **구현 기준 문서 + 기준 코드 + 테스트**.
 
 | 층 | 레포 | 이 레포의 기준 코드 | 핵심 변경 | 문서 |
 |---|---|---|---|---|
-| L2 의도 | l3-R-D | `src/rorr_layer_core/l2/` | intent 레지스트리 단일화 · question_form(왜/어때) · 주어·극성 · 해설형 intent 승격 · 버려지던 필드 전달 | [docs/01-L2-intent.md](docs/01-L2-intent.md) |
-| L3 조립 | l3-R-D | `src/rorr_layer_core/l3/` | 경기 종료 배치(match_report_lens) · lens 레지스트리 · 서사 카드 · L3Bundle(출처·원가·outcome) | [docs/02-L3-context.md](docs/02-L3-context.md) |
+| L2 의도 | rorr-user-intent-router (+ rorr-socket-server) | `src/rorr_layer_core/l2/` | intent 레지스트리 단일화 · question_form(왜/어때) · 주어·극성 · 해설형 intent 승격 · 버려지던 필드 전달 | [docs/01-L2-intent.md](docs/01-L2-intent.md) |
+| L3 조립 | rorr-backend-ai (+ l3-R-D 측정) | `src/rorr_layer_core/l3/` | 경기 종료 배치(match_report_lens) · lens 레지스트리 · 서사 카드 · L3Bundle(출처·원가·outcome) | [docs/02-L3-context.md](docs/02-L3-context.md) |
 | L4 생성 | rorr-ask-renderer | `src/rorr_layer_core/l4/` | 표기 사전 · 가드레일 G1~G10 · AnswerEnvelope v2 · emit_answer 프롬프트 | [docs/03-L4-answer.md](docs/03-L4-answer.md) |
 | 공통 | 백엔드 | `energy.py` | Energy 차감 규칙 | [docs/04-energy.md](docs/04-energy.md) |
 

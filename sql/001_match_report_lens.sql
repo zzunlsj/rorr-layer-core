@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS match_report_lens (
 -- 입력 조회 (query 조회 가이드 Q1·Q3·Q4 그대로)
 -- 한타 승률:  SELECT game_time, win_prob_100 FROM win_probability_frame WHERE game_id = $1 ORDER BY rfc460_timestamp;
 --            (subject_side = 200 이면 100 - win_prob_100)
+-- (주의: obj_intensity_weight 는 dev DB 스키마 덤프에 없다 — D-018)
 -- 자원 스윙:  SELECT s.*, w.intensity FROM v_objective_swing s LEFT JOIN obj_intensity_weight w USING (category) WHERE s.game_id = $1;
 -- 결정적 데스: 주어 팀 데스 중 turning_point 창(±30초) 안에서 가장 먼저 난 킬의 sequence_index →
 --            SELECT source, caster_id, total FROM v_kill_damage_breakdown WHERE game_id = $1 AND sequence_index = $2;

@@ -1,8 +1,8 @@
 """L2 → L3 → L4 한 번에 돌리는 기준 파이프라인 (데모·테스트용).
 
 운영에서는 층마다 다른 레포·프로세스에서 돈다:
-- L2: piecomp/l3-R-D 라우터 (/route) 뒤에 l2.route_v2.enrich
-- L3: piecomp/l3-R-D 쿼리 생성 뒤에 l3.bundle.assemble (+ 경기 종료 배치 l3.match_report)
+- L2: Jev 라우터 (/route, 레포 미확인 — D-013) 뒤에 l2.route_v2.enrich
+- L3: rorr-backend-ai chat.service 쿼리 실행 뒤에 l3.bundle.assemble (+ 경기 종료 배치 l3.match_report)
 - L4: piecomp/rorr-ask-renderer formatter 뒤에 l4.envelope.build
 """
 from __future__ import annotations

@@ -8,12 +8,15 @@
 - L3: [L3 프로세스](https://app.notion.com/p/406bc2f961aa8031b635c3db7fd3989a) · [[L3] 쏘넷 5.5 비용](https://app.notion.com/p/410bc2f961aa8053a8bbec1c7f5c00fc)
 - L4: [L4 프롬포트 테스트 초안](https://app.notion.com/p/40cbc2f961aa80aa8c9eec50a5576202) · [L4 하이쿠 비용 계산](https://app.notion.com/p/410bc2f961aa80518fdcf2ed468e2248) · [intent별 카드 컴포넌트 확정](https://app.notion.com/p/40fbc2f961aa80f9b865cef6c2c9db51)
 - 데이터: [LoL Ontology](https://app.notion.com/p/36dbc2f961aa80c8a1e7cd5524ab65e9) · [query 조회 가이드](https://app.notion.com/p/397bc2f961aa8071b7d2cacff9e896bc) · [neo4j schema](https://app.notion.com/p/3c8bc2f961aa80568646f214df597aa0) · [LwRC+ 기능 명세서](https://app.notion.com/p/411bc2f961aa817db12ef743eec6d48f)
+- 레포 목록: [대화레이어시스템 github 정리](https://app.notion.com/p/41cbc2f961aa800194b7d1554579363a) — `piecomp/` 6개 레포 주소·권한. 위치 대조는 `CLAUDE.md §5`
 - DB: [마일스톤 DB](https://app.notion.com/p/311bc2f961aa81588d6cd93de70587a7) · [태스크 DB](https://app.notion.com/p/311bc2f961aa81b6a6eec6dc03ea7044)
 
 ## 목업
 - [Ask RORR 답변 고도화 목업](https://claude.ai/artifact/GkAP1m7xpHqFKSZwCfuFwt) (Jun 계정 비공개 — 공유는 페이지에서)
 
 ## 레포
-- L2·L3: `piecomp/l3-R-D`
-- L4·렌더: `piecomp/rorr-ask-renderer`
+- L2: `piecomp/rorr-user-intent-router` (`prod` / `dev`) · 소켓 `piecomp/rorr-socket-server` (`dev`) · 백엔드 `piecomp/rorr-backend-api-v2` (`dev`) — D-020
+- L3 실서비스: `piecomp/rorr-backend-ai` (`dev`) · L3 프롬프트·측정·정답셋: `piecomp/l3-R-D` (`main`)
+- L4 정형화: `piecomp/rorr-ask-renderer` (`dev` → `prod`) · 화면 렌더: 웹 프런트 레포 (미확인)
+- 참고: `piecomp/rorr-datacenter-teams-bot` — `l3-R-D` 의 라우팅·예시 프롬프트 출처
 - LwRC+ 계산: `zzunlsj/rorr-lwrc` (private) · 조회 페이지 https://zzunlsj.github.io/rorr-lwrc-web/

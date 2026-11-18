@@ -9,17 +9,19 @@ Ask RORR v2(웹 rorr.club/chat 질의응답) 답변 고도화의 **층별 구현
 
 | 층 | 실서비스 레포 | 이 레포 경로 |
 |---|---|---|
-| L2 의도 판정 (Jev 라우터) | `piecomp/l3-R-D` | `src/rorr_layer_core/l2/` |
-| L3 컨텍스트 조립 (쿼리 생성 · Sonnet) | `piecomp/l3-R-D` | `src/rorr_layer_core/l3/` |
-| L4 정형화 · 카드 (Haiku · emit_viz) | `piecomp/rorr-ask-renderer` | `src/rorr_layer_core/l4/` |
+| L2 의도 판정 (Jev 라우터) | `piecomp/rorr-user-intent-router` (`prod` / `dev`) · 호출·scope 는 `piecomp/rorr-socket-server` (`dev`) | `src/rorr_layer_core/l2/` |
+| L3 컨텍스트 조립 (쿼리 생성) | `piecomp/rorr-backend-ai` `src/chat/` · `src/rag/` (옛 표기 `rorr-ai-server`) · 프롬프트 측정은 `piecomp/l3-R-D` | `src/rorr_layer_core/l3/` |
+| L4 정형화 (Haiku · emit_viz) | `piecomp/rorr-ask-renderer` (`dev` / `prod` 브랜치) | `src/rorr_layer_core/l4/` |
+| 화면 렌더 | 웹 프런트 레포 (미확인) — `rorr-ask-renderer` 는 봉투까지만 만든다 | — |
 
 ## 2. 먼저 읽는 순서
 
 1. `HANDOFF.md` — 지금 어디까지 왔고 다음 할 일이 무엇인지
 2. `docs/00-overview.md` — 목업 ↔ 층 매핑, 전체 흐름
-3. 맡은 층 문서 `docs/01~03-*.md`
-4. `docs/decisions.md` — 확정/제안/미결 결정
-5. `contracts/*.schema.json` — 층 사이 계약
+3. `docs/05-current-vs-target.md` — 실서비스 코드의 지금 동작과 층별로 바꿀 것
+4. 맡은 층 문서 `docs/01~03-*.md`
+5. `docs/decisions.md` — 확정/제안/미결 결정
+6. `contracts/*.schema.json` — 층 사이 계약
 
 ## 3. 명령
 
@@ -41,17 +43,36 @@ python scripts/demo.py --bad # 가드레일 동작 확인
 - 결정을 내리거나 바꾸면 `docs/decisions.md` 에 한 줄 남긴다.
 - **세션을 끝낼 때 `HANDOFF.md` 의 '이력'과 '다음 할 일'을 갱신한다.** 다음 세션(사람·Claude)이 이걸 보고 이어간다.
 
-## 5. 실서비스 코드에서 확인된 위치 (Notion 태스크 기준 — 레포 대조 전)
+## 5. 실서비스 코드 위치 (2026-11-18 레포 대조)
 
-| 무엇 | 위치 | 출처 |
+레포 목록 원본: Notion '대화레이어시스템 github 정리' (`docs/sources.md`). 모두 `rorr-repos/` 에 클론 (커밋 안 됨).
+
+| 레포 (`piecomp/`) | 브랜치 · 커밋 | 역할 |
 |---|---|---|
-| Jev 판정 (domain+topic → intent) | `l3-R-D` `src/embedder/jev.py` `judge_route` (브랜치 `feat/jev-judge`) | [L2] 인텐트 추출 테스트 정리 |
-| scope × intent → 테이블 매핑 | `source-mapping.ts` | L3 프로세스 부록 C |
-| 소켓 시점 어휘 하드코딩 | `scope.service.ts` | 대화 레이어 구조 구성 §2 |
-| L4 정형화기 | `formatter.py` (`formalize()`, 프롬프트 캐싱) | L4 하이쿠 비용 계산 |
-| 카드 렌더 | `piecomp/rorr-ask-renderer` | [L4↔웹] 프롬프트 & kind 정리 |
+| `rorr-user-intent-router` | `prod` `4218e90` (`dev` `bd386c9`) | L2 — Jev 판정 · `POST /route` |
+| `rorr-socket-server` | `dev` `f66dd26` (`main` 은 README 뿐) | 소켓 — 라우터 호출 · scope · Energy 턴 |
+| `rorr-backend-ai` | `dev` `0fa7b22` (`prod` · `main` 있음) | L3 — 문서의 `rorr-ai-server` 가 이 레포다 |
+| `rorr-ask-renderer` | `dev` `9e8ebe7` | L4 |
+| `rorr-backend-api-v2` | `dev` `5830d9c` | 백엔드 API — `src/modules/ask/` · Energy 결제 |
+| `rorr-ollama-server` | `develop` `7e5d2b0` | 서하 대사 생성 (Ollama) |
+| `l3-R-D` | `main` `a1eaf87` | L3 프롬프트 측정 하니스 |
 
-> 위 경로는 아직 실제 코드와 대조하지 않았다 (HANDOFF.md '미확인'). 대조 후 이 표를 고친다.
+| 무엇 | 위치 | 상태 |
+|---|---|---|
+| Jev 판정 (domain+topic → intent) | `rorr-user-intent-router` `src/embedder/jev.py:153` `judge_route` · `src/embedder/router.py` | ✅ 위치 확인 |
+| 라우터 호출 (`POST /route`) | `rorr-socket-server` `src/gateways/affect-api.service.ts` (`INTENT_ROUTER_URL`) | ✅ 위치 확인 |
+| 소켓 시점 어휘 하드코딩 | `rorr-socket-server` `src/gateways/scope.service.ts` (`LIVE_WORDS` 등) | ✅ 위치 확인 |
+| L3 흐름 (보정 → RAG → 템플릿 → 쿼리 생성 → L4 호출) | `rorr-backend-ai` `src/chat/chat.service.ts:46` `generate()` · `callCascade` | ✅ 위치 확인 |
+| L3 쿼리 생성 | `rorr-backend-ai` `src/chat/bedrock.service.ts:157` `generateQueryPlan` · `src/chat/l3/` (`l3-query.service.ts` · `prompt-builder.ts` · `prompts/*.md` · `query-guard.ts`) | ✅ 위치 확인 |
+| scope × intent → 테이블 매핑 | `rorr-backend-ai` `src/chat/source-mapping.ts` · `query-templates.ts` | ✅ 위치 확인 |
+| RAG 캐시 · 쿼리 실행 | `rorr-backend-ai` `src/rag/rag.service.ts` (`prepared_questions` · `executeQueryPlan:324` · `bindEntityParams:397`) | ✅ 위치 확인 |
+| L3 프롬프트 · 측정 | `l3-R-D` `context/*.md` · `src/prompt-builder.ts` · `stages.json` · `goldset/` | ✅ |
+| L4 진입점 | `rorr-ask-renderer` `app.py` `POST /render` · `to_l3()` | ✅ |
+| L4 정형화기 | `rorr-ask-renderer` `formatter.py` `formalize()` · `fillable` · `numbers_grounded` · `_downgrade` | ✅ |
+| L4 프롬프트 · kind | `rorr-ask-renderer` `prompts.py` (`KIND_ENUM` · `SYSTEM_HEAD` · `EMIT_VIZ_TOOL`) — 소스 오브 트루스 | ✅ |
+| L4 표기 변환 | `rorr-ask-renderer` `formatter.py` `_cell_value` · `_col_label` · `_lwrc` · `labels.md` | ✅ |
+
+> 동작 대조 결과는 `docs/05-current-vs-target.md` 와 `docs/01·02` '이식 위치' 표에 있다. 코드를 읽은 것이고 실제 요청으로 확인한 것은 아니다.
 
 ## 6. 원본 문서
 

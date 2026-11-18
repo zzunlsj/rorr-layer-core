@@ -32,7 +32,7 @@ flowchart TD
     B --> H["L4 Haiku<br>emit_viz (kind) + emit_answer (문장)"]
     H --> G["L4 코드<br>표기 사전 → 숫자 재바인딩 → 가드레일 G1~G10"]
     G --> ENV["AnswerEnvelope ask-v2.0"]
-    ENV --> WEB["웹 렌더 (rorr-ask-renderer)"]
+    ENV --> WEB["웹 렌더 (웹 프런트)"]
     ENV --> EN["백엔드 Energy 차감<br>answered → 1 · 그 외 0"]
 ```
 

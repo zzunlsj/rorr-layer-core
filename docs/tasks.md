@@ -3,7 +3,7 @@
 마일스톤: **ASK RORR 답변 고도화** · 단계: P0(Worlds 결승 전후) · P1(11/15 이후) · P2 · P3
 담당은 검토 후 지정. 기준 코드 경로를 같이 적었다.
 
-## L2 — 의도 판정 (l3-R-D)
+## L2 — 의도 판정 (Jev 라우터 레포 — 미확인, D-013)
 
 | # | 단계 | 태스크 | 기준 코드 | 완료 조건 |
 |---|---|---|---|---|
@@ -13,7 +13,7 @@
 | L2-4 | P1 | '왜/어때' intent 승격 + Jev 정답셋에 해설형 문장 추가 | `upgrade_intent` | 목업 질문 3개 기대 intent |
 | L2-5 | P1 | 소켓 scope.service.ts 시점 어휘 제거 → 라우터 일원화 (D-005 확정 후) | — | scope 계산 1곳 |
 
-## L3 — 컨텍스트 조립 (l3-R-D)
+## L3 — 컨텍스트 조립 (rorr-backend-ai · 측정은 l3-R-D)
 
 | # | 단계 | 태스크 | 기준 코드 | 완료 조건 |
 |---|---|---|---|---|
@@ -25,7 +25,7 @@
 | L3-6 | P2 | 관계형 lens(gold_diff_by_minute · first_objective_rate · role_matchup) 쿼리 + 캐시 | `lenses.py` | Q3 목업 재현, 두 번째부터 ₩0 |
 | L3-7 | P3 | 역대 시리즈·게임 결과 적재 → 서사 카드 자동 도출 | `narrative.py` auto_derived | 사람은 검수만 |
 
-## L4 — 생성·표현 (rorr-ask-renderer + formatter.py)
+## L4 — 생성·표현 (rorr-ask-renderer `formatter.py` · `prompts.py`)
 
 | # | 단계 | 태스크 | 기준 코드 | 완료 조건 |
 |---|---|---|---|---|
