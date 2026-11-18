@@ -19,7 +19,7 @@ Ask RORR v2(웹 rorr.club/chat 질의응답) 답변 고도화의 **층별 구현
 1. `HANDOFF.md` — 지금 어디까지 왔고 다음 할 일이 무엇인지
 2. `docs/00-overview.md` — 목업 ↔ 층 매핑, 전체 흐름
 3. `docs/05-current-vs-target.md` — 실서비스 코드의 지금 동작과 층별로 바꿀 것
-4. 맡은 층 문서 `docs/01~03-*.md`
+4. 맡은 층 문서 `docs/01~03-*.md` · 웹/확장(Muse) 채널 전체 방향은 `docs/06-channels-and-muse.md`
 5. `docs/decisions.md` — 확정/제안/미결 결정
 6. `contracts/*.schema.json` — 층 사이 계약
 
@@ -40,6 +40,7 @@ python scripts/demo.py --bad # 가드레일 동작 확인
 - **계약을 바꾸면 세 곳을 같이 고친다:** `contracts/*.schema.json` · `src/rorr_layer_core/contracts.py` · 해당 층 docs. (D-004)
 - **intent 추가는 `l2/intents.py` 한 곳에서.** L2·L3 목록이 어긋나지 않게 버전(`INTENT_REGISTRY_VERSION`)을 올린다. (D-002)
 - 새 지표를 화면에 내보내려면 `l4/glossary.py METRICS` 에 이름·기준을 먼저 등록한다. (G4)
+- **방향의 기준은 Notion 'RORR 기능 명세서'다. 실서비스 코드는 임시 구현이다.** 둘이 다르면 명세 쪽으로 맞춘다. (D-032)
 - 결정을 내리거나 바꾸면 `docs/decisions.md` 에 한 줄 남긴다.
 - **세션을 끝낼 때 `HANDOFF.md` 의 '이력'과 '다음 할 일'을 갱신한다.** 다음 세션(사람·Claude)이 이걸 보고 이어간다.
 
