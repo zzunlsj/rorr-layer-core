@@ -1,0 +1,289 @@
+{
+  "_note": "목업 Q1 예시 데이터 (실제 기록 아님). ID 중 T1은 L2 테스트 응답의 실제 id, BLG는 자리표시자.",
+  "question": "T1, BLG 4세트 왜 졌어?",
+  "page_context": null,
+  "raw_route": {
+    "path": "answer",
+    "domain": "esports",
+    "topic": "team",
+    "intent": "team_form",
+    "verdict": "clear",
+    "null_reason": null,
+    "conf": 0.71,
+    "slots": {
+      "entity_type": "team",
+      "entities": {
+        "team": [
+          "T1",
+          "BLG"
+        ]
+      },
+      "entity_refs": [
+        {
+          "name": "T1",
+          "type": "team",
+          "id": "98767991853197861",
+          "display": "T1"
+        },
+        {
+          "name": "BLG",
+          "type": "team",
+          "id": "BLG_TEAM_ID",
+          "display": "BLG"
+        }
+      ],
+      "unresolved": [],
+      "metrics": []
+    }
+  },
+  "game": {
+    "game_id": "WORLDS2026_SF_T1_BLG_G4",
+    "subject_side": 100,
+    "teams": {
+      "100": "T1",
+      "200": "BLG"
+    },
+    "winprob": [
+      [
+        0,
+        50
+      ],
+      [
+        60,
+        51
+      ],
+      [
+        120,
+        53
+      ],
+      [
+        180,
+        52
+      ],
+      [
+        240,
+        55
+      ],
+      [
+        300,
+        56
+      ],
+      [
+        360,
+        58
+      ],
+      [
+        420,
+        57
+      ],
+      [
+        480,
+        60
+      ],
+      [
+        540,
+        59
+      ],
+      [
+        600,
+        58
+      ],
+      [
+        660,
+        57
+      ],
+      [
+        720,
+        61
+      ],
+      [
+        780,
+        63
+      ],
+      [
+        840,
+        62
+      ],
+      [
+        900,
+        60
+      ],
+      [
+        960,
+        58
+      ],
+      [
+        1020,
+        49
+      ],
+      [
+        1080,
+        52
+      ],
+      [
+        1140,
+        55
+      ],
+      [
+        1200,
+        58
+      ],
+      [
+        1260,
+        60
+      ],
+      [
+        1320,
+        61
+      ],
+      [
+        1380,
+        59
+      ],
+      [
+        1440,
+        22
+      ],
+      [
+        1500,
+        18
+      ],
+      [
+        1560,
+        16
+      ],
+      [
+        1620,
+        14
+      ],
+      [
+        1680,
+        11
+      ],
+      [
+        1740,
+        8
+      ],
+      [
+        1800,
+        6
+      ],
+      [
+        1860,
+        5
+      ]
+    ],
+    "swings": [
+      {
+        "sequence_index": 512,
+        "category": "baron",
+        "side": 200,
+        "swing_gold_60s": 3850,
+        "intensity": 1.0
+      },
+      {
+        "sequence_index": 301,
+        "category": "dragon_2_3",
+        "side": 200,
+        "swing_gold_60s": 1775,
+        "intensity": 0.8
+      },
+      {
+        "sequence_index": 188,
+        "category": "riftherald",
+        "side": 100,
+        "swing_gold_60s": 1390,
+        "intensity": 0.85
+      },
+      {
+        "sequence_index": 77,
+        "category": "voidgrub",
+        "side": 100,
+        "swing_gold_60s": 400,
+        "intensity": 0.55
+      }
+    ],
+    "swing_labels": {
+      "512": "24:10 바론 (BLG)",
+      "301": "17:25 드래곤 3번째 (BLG)",
+      "188": "11:02 전령 (T1)",
+      "77": "6:30 공허 유충 (T1)"
+    },
+    "key_death": [
+      {
+        "source": "Champion",
+        "caster_label": "제이스 (BLG 탑)",
+        "total": 984
+      },
+      {
+        "source": "Champion",
+        "caster_label": "세주아니 (BLG 정글)",
+        "total": 770
+      },
+      {
+        "source": "Champion",
+        "caster_label": "애쉬 (BLG 원딜)",
+        "total": 386
+      },
+      {
+        "source": "Minion",
+        "caster_label": "미니언",
+        "total": 40
+      }
+    ]
+  },
+  "facts_kind": "match_review",
+  "facts_meta": {
+    "series": "Worlds 4강 · BLG 3 : 1 T1 · 4세트",
+    "result": "T1 패",
+    "duration": "31:40",
+    "kills": "12 : 21",
+    "gold_diff": "-6.4k",
+    "dragons_barons": "2:4 · 0:2"
+  },
+  "narratives": [
+    {
+      "fact_id": "nf-0001",
+      "entity_a": "98767991853197861",
+      "entity_b": "LPL",
+      "scope": "worlds",
+      "kind": "streak_break",
+      "text": "T1은 몇 년 동안 Worlds에서 LPL 팀에게 진 적이 없었고, 이번 BLG전 4강이 그 기록이 끊긴 첫 패배예요.",
+      "basis": "Jun 제공 서사 — 녹아웃/전체 경기 기준·시작 연도 확인 필요",
+      "source": "큐레이션 (목업용 — 정식 등록 시 기준 확정)",
+      "status": "verified",
+      "verified_by": "jun"
+    }
+  ],
+  "draft_good": {
+    "lead": "T1은 24분 바론 앞 한타에서 경기를 넘겨줬어요.",
+    "sub": "그 전까지 한타 승률은 T1이 앞서 있었는데, 이 한타 한 번에 크게 꺾였어요.",
+    "lens_insights": {
+      "winprob_curve": "17분 세 번째 드래곤 이후 흔들렸지만 버텼고, 24분 바론 앞 교전에서 크게 꺾였어요.",
+      "objective_swing": "바론 하나가 앞선 두 오브젝트를 합친 것보다 컸어요.",
+      "death_breakdown": "세 명이 나눠 넣은 피해라 솔로킬이 아니라 진입 타이밍을 잡힌 데스예요."
+    },
+    "muse": "아… 바론 앞 그 한타, 나도 보다가 숨 멈췄어.",
+    "next": [
+      {
+        "text": "4세트 24분 한타만 다시 보기",
+        "drilldown": true
+      },
+      {
+        "text": "BLG는 바론 이후 어떻게 굴렸어?"
+      },
+      {
+        "text": "페이커 이번 Worlds 폼은?"
+      }
+    ]
+  },
+  "draft_bad": {
+    "lead": "네, BLG는 이 경기에서 이겼어요. 1395635초 무렵 200 측이 용을 스틸했어요.",
+    "sub": "최근 5경기 흐름도 비슷해요.",
+    "lens_insights": {
+      "winprob_curve": "100 측 승률이 떨어졌어요."
+    },
+    "muse": "한타 승률 22%라니 너무해!",
+    "next": []
+  }
+}

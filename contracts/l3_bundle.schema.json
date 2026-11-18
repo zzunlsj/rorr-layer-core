@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "L3 → L4 L3Bundle",
+  "type": "object",
+  "required": [
+    "route",
+    "outcome",
+    "data_scope"
+  ],
+  "properties": {
+    "route": {
+      "$ref": "l2_route_v2.schema.json"
+    },
+    "facts_kind": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "facts_rows": {
+      "type": "array"
+    },
+    "facts_meta": {
+      "type": "object"
+    },
+    "lenses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "lens_id",
+          "title",
+          "metric",
+          "series"
+        ],
+        "properties": {
+          "lens_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "metric": {
+            "type": "string",
+            "description": "l4/glossary.METRICS 키"
+          },
+          "series": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            }
+          },
+          "markers": {
+            "type": "array"
+          },
+          "insight": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "free_drilldown": {
+            "type": "boolean"
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "narratives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "fact_id",
+          "text",
+          "basis",
+          "source"
+        ]
+      }
+    },
+    "teams": {
+      "type": "object",
+      "description": "side('100'/'200') → 팀 코드"
+    },
+    "data_scope": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array"
+    },
+    "cost_krw": {
+      "type": "number"
+    },
+    "outcome": {
+      "enum": [
+        "answered",
+        "no_data",
+        "l3_failed",
+        "off_domain",
+        "clarify",
+        "system_error"
+      ]
+    }
+  }
+}

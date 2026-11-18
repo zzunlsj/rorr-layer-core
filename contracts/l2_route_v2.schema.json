@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "L2 → L3 RouteResult v2",
+  "description": "현행 /route 응답 + v2 필드(question_form, subject, intent_registry_version). verdict·null_reason·unresolved는 끝까지 전달.",
+  "type": "object",
+  "required": [
+    "path",
+    "intent",
+    "question_form"
+  ],
+  "properties": {
+    "path": {
+      "enum": [
+        "answer",
+        "llm",
+        "clarify"
+      ]
+    },
+    "domain": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "topic": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "intent": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "clear",
+        "fuzzy",
+        "unclear",
+        null
+      ]
+    },
+    "null_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "entity_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "display": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "scope": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "conf": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "question_form": {
+      "enum": [
+        "what",
+        "why",
+        "how",
+        "when",
+        "compare"
+      ]
+    },
+    "subject": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "entity": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "name",
+                "type",
+                "id"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "display": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "polarity": {
+          "enum": [
+            "win",
+            "loss",
+            "neutral"
+          ]
+        },
+        "counterpart": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "name",
+                "type",
+                "id"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "display": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "intent_registry_version": {
+      "type": "string"
+    },
+    "surface": {
+      "enum": [
+        "web",
+        "extension",
+        "overlay"
+      ]
+    }
+  }
+}

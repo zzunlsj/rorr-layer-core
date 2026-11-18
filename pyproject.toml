@@ -1,0 +1,13 @@
+[project]
+name = "rorr-layer-core"
+version = "0.1.0"
+description = "Ask RORR v2 — L2·L3·L4 층별 기준 구현 (계약·가드레일·경기 종료 배치·서사 카드)"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

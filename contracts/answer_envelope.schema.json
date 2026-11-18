@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "L4 → 웹 AnswerEnvelope (ask-v2.0)",
+  "description": "목업의 층 구조 그대로: ① lead · Ⓗ history · ② facts · ③ lenses · ④ evidence/muse/next + energy",
+  "type": "object",
+  "required": [
+    "version",
+    "lead",
+    "lenses",
+    "energy"
+  ],
+  "properties": {
+    "version": {
+      "const": "ask-v2.0"
+    },
+    "lead": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "sub": {
+          "type": "string"
+        }
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "fact_id",
+          "text",
+          "basis"
+        ]
+      }
+    },
+    "facts": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "kind": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rows": {
+          "type": "array",
+          "maxItems": 10
+        },
+        "collapsed_rows": {
+          "type": "integer"
+        },
+        "meta": {
+          "type": "object"
+        }
+      }
+    },
+    "lenses": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "lens_id",
+              "title",
+              "metric",
+              "series"
+            ],
+            "properties": {
+              "lens_id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "metric": {
+                "type": "string",
+                "description": "l4/glossary.METRICS 키"
+              },
+              "series": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                }
+              },
+              "markers": {
+                "type": "array"
+              },
+              "insight": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "free_drilldown": {
+                "type": "boolean"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "required": [
+              "metric_label"
+            ],
+            "properties": {
+              "metric_label": {
+                "type": "string"
+              },
+              "metric_basis": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "unit": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "muse": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "next": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "energy": {
+            "enum": [
+              0,
+              1
+            ]
+          }
+        }
+      }
+    },
+    "energy": {
+      "type": "object",
+      "properties": {
+        "cost": {
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "charged": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "data_scope_label": {
+      "type": "string"
+    },
+    "violations": {
+      "type": "array"
+    }
+  }
+}

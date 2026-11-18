@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "서사 카드 narrative_fact",
+  "description": "sql/002_narrative_fact.sql 과 동일",
+  "type": "object",
+  "required": [
+    "fact_id",
+    "kind",
+    "entity_a",
+    "text",
+    "basis",
+    "source",
+    "status"
+  ],
+  "properties": {
+    "fact_id": {
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "streak_break",
+        "rivalry",
+        "league_rivalry",
+        "career",
+        "rematch"
+      ]
+    },
+    "entity_a": {
+      "type": "string"
+    },
+    "entity_b": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "scope": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "text": {
+      "type": "string"
+    },
+    "basis": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "verified",
+        "retired"
+      ]
+    },
+    "verified_by": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "valid_from": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "valid_to": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "auto_derived": {
+      "type": "boolean"
+    }
+  }
+}
