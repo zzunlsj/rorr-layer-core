@@ -227,10 +227,10 @@ flowchart TD
 
 | 대상 | 지금 | 바꿀 방향 | 결정 |
 |---|---|---|---|
-| `contracts/answer_envelope.schema.json` | 평평한 봉투 (`lead · history · facts · lenses · evidence · muse · next · energy`) | 웹 리포트 봉투로 둔다. **`muse` 필드를 뺀다** — SD 서하 첨언은 별도 Muse 메시지 (§4-1) | D-025 (D-015 와 같이) |
+| `contracts/answer_envelope.schema.json` | 웹 리포트 봉투 (`lead · history · facts · lenses · evidence · next · energy`) — **`muse` 필드 제거 반영됨 (2026-11-18)** | 그대로. SD 서하 첨언은 별도 Muse 메시지 (§4-1) | D-025 확정 |
 | Muse 메시지 계약 (신규) | 없음 — 실서비스 `room:message` 모양 | `{text, expression, action, cue_ref}` · 웹 첨언과 확장 대사가 같은 모양 | D-026 |
-| `l4/prompt.py` `emit_answer` | `lead · sub · lens_insights · muse · next` | `muse` 를 뺀다 — 해설 문장만 | D-026 |
-| `l4/guardrails.py` G8 | Haiku 가 쓴 `muse.text` 검사 | 페르소나 경로 출력 검사로 옮긴다 (두 채널 공통 규칙) | D-026 |
+| `l4/prompt.py` `emit_answer` | `lead · sub · lens_insights · next` — **`muse` 제거 반영됨** | 그대로 — 해설 문장만 | D-026 확정 |
+| `l4/guardrails.py` G8 | `check_muse` 함수만 남고 봉투 검사(`run_all`)에서는 빠졌다 — **반영됨** | 페르소나 경로 출력 검사에 붙인다 (두 채널 공통 규칙) | D-026 확정 |
 | `contracts/l3_bundle.schema.json` | `facts · lenses · narratives · sources · cost · outcome` | `muse_cue` (숫자 없음) · 정리된 `summary`(집계 · 이름 한 가지 · 식별자 없음) 추가 | D-016 과 같이 |
 | `l4/glossary.py` 정리 | L4 웹 코드 안 | L3Bundle 조립 직후(채널 분기 앞)로 — 확장도 같은 정리를 받는다 | D-016 과 같이 |
 | `contracts/l2_route_v2.schema.json` | 주어 · 극성 · question_form | + `context{page, entity}` 슬롯 기본값 (10/23 입력 계약) | D-005 와 같이 |
@@ -254,8 +254,8 @@ C 까지는 확장 UI 를 건드리지 않고 두 채널이 같이 좋아진다.
 
 | ID | 질문 | 왜 지금 |
 |---|---|---|
-| D-025 | 봉투를 플랫폼별로 묶는다 — 웹 리포트 봉투 / Muse 메시지 (Jun 방향, 비용 고민 중) | D-015 를 정할 때 같이 정하지 않으면 봉투를 두 번 바꾼다 |
-| D-026 | SD 서하 첨언을 누가 쓰나 — T1 템플릿(제안, 비용 0) · qwen3 | `emit_answer` 에서 `muse` 를 빼는 것은 어느 쪽이든 같다 (D-008 과 묶임) |
+| ~~D-025~~ | **확정 (2026-11-18)** — 봉투를 플랫폼별로 묶는다. 웹 리포트 봉투 / Muse 메시지 | 계약에서 `muse` 를 뺐다. D-015 는 이 모양을 전제로 정한다 |
+| ~~D-026~~ | **확정 (2026-11-18)** — SD 서하 첨언은 별도 Muse 메시지, 페르소나 경로가 T1 템플릿부터 쓴다 | 남은 것: `muse_cue` · Muse 메시지 계약 (D-016 과 같이). D-008 은 `muse` 없는 `emit_answer` 기준으로 정한다 |
 | D-033 | 웹 리포트로 넘기는 문구 · 자유 대화에 qwen3(GPU 고정비)를 계속 쓰는가 | 확장의 비용 범위가 여기서 정해진다 |
 | D-034 | L3 깊이를 채널별로 — 확장은 쿼리 1개 · 낮춘 모델, 웹은 사실 + lens 3종 이상 (Jun 방향). 남은 것: 확장 모델 · 시간 한도 · 확장 쿼리의 캐시 저장 여부 | `l3-R-D` 로 사실형 방향 정확도 · 비용을 잰 뒤 확정 (§4-2) |
 | D-027 | 확장 Q&A 에서 서하가 수치를 말하는가 · 단순 사실(스코어)은 예외인가 | 3채널 원칙과 현행 L4 가 반대다 |

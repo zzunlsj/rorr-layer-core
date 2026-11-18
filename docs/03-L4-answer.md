@@ -33,8 +33,8 @@
 
 ### 1) 역할 분리 유지 + 문장 도구 추가 — `l4/prompt.py`
 - 기존 `emit_viz`(사실 카드 kind)는 그대로.
-- 해설형 intent일 때 `emit_answer` 로 문장만 받는다: `lead · sub · lens_insights{lens_id: 한 줄} · muse · next[]`.
-- 시스템 프롬프트에 **주어 관점 · '왜'면 갈린 지점 · 지표 이름 필수 · 서사 생성 금지 · 서하 숫자 금지** 규칙.
+- 해설형 intent일 때 `emit_answer` 로 문장만 받는다: `lead · sub · lens_insights{lens_id: 한 줄} · next[]`. 서하 대사(`muse`)는 받지 않는다 — 별도 Muse 메시지 (D-026).
+- 시스템 프롬프트에 **주어 관점 · '왜'면 갈린 지점 · 지표 이름 필수 · 서사 생성 금지** 규칙.
 - 1회 호출로 합칠지(emit_viz 스키마 확장) 2회로 나눌지는 D-008 — 캐시 prefix 크기와 지연으로 결정.
 
 ### 2) 표기 사전 — `l4/glossary.py`
@@ -49,7 +49,7 @@
 | G4 라벨·기준 없는 지표 | block | 해당 lens 제거 |
 | G5 개수 불일치 | block | 결론 교체 |
 | G6 표 10행 초과 | warn | 10행 + 접기(`collapsed_rows`) |
-| G8 서하 숫자·지표명 | block | muse 제거 |
+| G8 서하 숫자·지표명 | block | 봉투 검사에서 빠졌다 — `check_muse` 는 Muse 메시지를 만드는 페르소나 경로의 출력 검사용으로 남긴다 (D-026) |
 | G9 등록 안 된 서사 | block | 해당 history 제거 |
 | G10 유료인데 분석 없음 | warn | 기록만 (D-009 미결) |
 
@@ -67,7 +67,7 @@
 | history | 노란 '역대 맥락' 블록 + "2026 이전 데이터 연결 예정" 칩 | 신규 |
 | facts | 기존 kind 카드 | 기존 |
 | lenses | 'RORR 분석' 카드 + 탭(무료) · 라인/막대/분해 차트 | 신규 |
-| evidence · muse · next | 근거 칩 · 서하 반응 · 후속 질문(⚡ 표시) | 신규 |
+| evidence · next | 근거 칩 · 후속 질문(⚡ 표시). 서하 반응은 봉투 밖 — 별도 Muse 메시지 (D-025) | 신규 |
 | energy · data_scope_label | 영수증(−1 Energy · 답변 완료 후 차감) · "2026 데이터 기준" | 신규 |
 
 ## 이식 위치 (2026-11-18 대조)
@@ -94,7 +94,7 @@
 | G6 표 10행 초과 | **정반대** — 폴백 표는 "전 행, 자르지 않음" (`_to_table`, PR `fix/large-table-rendering`) | D-017 |
 | G7 이질 문자 | 프롬프트 규칙 5 (한자·가나·키릴 금지) | 코드 검사 없음 |
 | 숫자 창작 | `numbers_grounded` — 구조 값만 | `text` 프로즈 숫자 |
-| G1 · G8 · G9 · G10 | 없음 (주어·서하·서사·Energy 개념이 L4 입력에 없다) | L3Bundle 전달이 먼저 (D-016) |
+| G1 · G9 · G10 | 없음 (주어·서사·Energy 개념이 L4 입력에 없다) | L3Bundle 전달이 먼저 (D-016) |
 
 ## 수용 기준
 

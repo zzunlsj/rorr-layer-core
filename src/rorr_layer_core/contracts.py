@@ -12,7 +12,7 @@ CONTRACT_VERSION = "ask-v2.0"
 
 QuestionForm = Literal["what", "why", "how", "when", "compare"]
 Polarity = Literal["win", "loss", "neutral"]
-BlockName = Literal["lead", "history", "facts", "lens", "evidence", "muse", "next"]
+BlockName = Literal["lead", "history", "facts", "lens", "evidence", "next"]
 
 
 @dataclass
@@ -103,14 +103,13 @@ class L3Bundle:
 
 @dataclass
 class AnswerEnvelope:
-    """L4 → 웹. 목업의 층 구조를 그대로 담는다."""
+    """L4 → 웹 리포트 봉투. 서하 대사는 담지 않는다 — 별도 Muse 메시지 (D-025 · D-026)."""
     version: str
     lead: dict[str, str]                          # {text, sub}
     history: list[dict[str, str]]                 # Ⓗ 역대 맥락 (서사 카드 기반)
     facts: Optional[dict[str, Any]]               # ② 사실 카드 (기존 kind)
     lenses: list[dict[str, Any]]                  # ③ RORR 분석
     evidence: list[str]                           # ④ 근거 칩
-    muse: Optional[dict[str, str]]                # ④ 서하 반응 (숫자 금지)
     next: list[dict[str, Any]]                    # ④ 후속 질문 {text, energy}
     energy: dict[str, Any]                        # {cost, charged, reason}
     data_scope_label: str = ""

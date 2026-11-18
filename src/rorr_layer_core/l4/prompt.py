@@ -1,7 +1,8 @@
 """L4 v2 프롬프트 — 기존 emit_viz(정형화기) 위에 '말'만 맡기는 도구 emit_answer.
 
 역할 분리 (L4 프롬프트 테스트 초안 원칙 유지)
-- Haiku : 결론 한 줄(lead) · 보충(sub) · lens별 한 줄 해석(insight) · 서하 반응 · 후속 질문 문구
+- Haiku : 결론 한 줄(lead) · 보충(sub) · lens별 한 줄 해석(insight) · 후속 질문 문구
+- 서하 대사는 여기서 쓰지 않는다 — 페르소나 경로가 별도 Muse 메시지로 만든다 (D-026)
 - 코드  : 숫자·사실 표·lens 값·서사 문장·Energy (envelope.py)
 
 기존 emit_viz 호출(사실 카드 kind)은 그대로 쓰고, 해설형 intent일 때만 emit_answer 를 한 번 더
@@ -23,9 +24,6 @@ SYSTEM_V2 = """너는 LoL e스포츠 답변의 '해설 문장'만 쓰는 작성�
 [lens insight]
 - lens마다 한 줄. 그 lens 값으로 알 수 있는 '의미'를 쓴다. 값 나열 금지.
 
-[muse — 서하 반응]
-- 감정 한 줄. 숫자·지표명 금지. 충전·Boost 권유 금지.
-
 [next — 후속 질문 3개]
 - 같은 답 안에서 더 볼 수 있는 것 1개(무료 드릴다운), 새 질문 2개.
 
@@ -44,7 +42,6 @@ EMIT_ANSWER_TOOL = {
             "lead": {"type": "string"},
             "sub": {"type": "string"},
             "lens_insights": {"type": "object", "additionalProperties": {"type": "string"}},
-            "muse": {"type": "string"},
             "next": {"type": "array", "items": {"type": "object", "properties": {
                 "text": {"type": "string"}, "drilldown": {"type": "boolean"}}}},
         },

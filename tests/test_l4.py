@@ -48,13 +48,14 @@ def test_pipeline_good_draft(q1):
     assert env["history"][0]["fact_id"] == "nf-0001"
     assert env["data_scope_label"] == "2026 데이터 기준"
     assert [n["energy"] for n in env["next"]] == [0, 1, 1]
+    assert "muse" not in env  # 웹 리포트 봉투에 서하 대사 없음 (D-025 · D-026)
 
 
 def test_pipeline_bad_draft_is_repaired(q1):
     env = run(q1, "draft_bad").to_dict()
     codes = {v["code"] for v in env["violations"]}
-    assert {"G1", "G8"} <= codes
-    assert env["lead"]["text"].startswith("T1은") and env["muse"] is None
+    assert "G1" in codes
+    assert env["lead"]["text"].startswith("T1은")
 
 
 def test_no_data_is_free():

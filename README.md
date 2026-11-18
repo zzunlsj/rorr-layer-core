@@ -17,7 +17,7 @@ L2 · L3 · L4 층별 **구현 기준 문서 + 기준 코드 + 테스트**.
 Ⓗ 역대 맥락       history   검증된 서사 카드만 · 2026 밖의 서사                 ← L3 (narrative_fact)
 ② 사실 카드       facts     기존 kind (스코어 · KDA · 일정)                    ← L3 쿼리 → L4 emit_viz
 ③ RORR 분석       lenses    한타 승률 · 자원 스윙 · 데스 분해 · LwRC+ · 매치업  ← L3 (경기 종료 배치 + 쿼리)
-④ 근거 · 다음     evidence · muse · next   서하 대사 숫자 금지 · 후속 질문 비용 표시   ← L4
+④ 근거 · 다음     evidence · next   후속 질문 비용 표시 (서하 한마디는 봉투 밖 — 별도 Muse 메시지)   ← L4
    + energy       답변 완료 후 1 차감 · 실패/도메인 밖/되묻기 0 · 탭·추천 질문 무료    ← 백엔드
 ```
 

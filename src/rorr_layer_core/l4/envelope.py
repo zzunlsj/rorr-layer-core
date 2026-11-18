@@ -65,7 +65,7 @@ def build(bundle: L3Bundle, draft: dict[str, Any], entry: str = "typed") -> Answ
         return AnswerEnvelope(
             version=CONTRACT_VERSION,
             lead={"text": "지금 데이터로는 답하기 어려워요.", "sub": "Energy는 차감되지 않았어요."},
-            history=[], facts=None, lenses=[], evidence=[], muse=None,
+            history=[], facts=None, lenses=[], evidence=[],
             next=[{"text": t, "energy": 0} for t in ("결승 일정 언제야?", "LwRC+가 뭐야?")],
             energy=energy, data_scope_label="")
 
@@ -80,7 +80,6 @@ def build(bundle: L3Bundle, draft: dict[str, Any], entry: str = "typed") -> Answ
                   "meta": bundle.facts_meta} if bundle.facts_kind else None,
         "lenses": [_lens_dict(l, insights.get(l.lens_id), teams) for l in bundle.lenses],
         "evidence": bundle.sources,
-        "muse": {"text": draft["muse"]} if draft.get("muse") else None,
         "next": [{"text": n["text"], "energy": 0 if n.get("drilldown") else 1} for n in draft.get("next", [])],
         "energy": energy,
     }
@@ -89,8 +88,6 @@ def build(bundle: L3Bundle, draft: dict[str, Any], entry: str = "typed") -> Answ
     blocks = {v.block for v in violations if v.severity == "block"}
     if "lead" in blocks:
         env["lead"] = {"text": template_lead(bundle), "sub": ""}
-    if "muse" in blocks:
-        env["muse"] = None
     if "history" in blocks:
         allowed = {n.fact_id for n in bundle.narratives}
         env["history"] = [h for h in env["history"] if h["fact_id"] in allowed]
@@ -102,7 +99,7 @@ def build(bundle: L3Bundle, draft: dict[str, Any], entry: str = "typed") -> Answ
 
     return AnswerEnvelope(
         version=CONTRACT_VERSION, lead=env["lead"], history=env["history"], facts=env["facts"],
-        lenses=env["lenses"], evidence=env["evidence"], muse=env["muse"], next=env["next"],
+        lenses=env["lenses"], evidence=env["evidence"], next=env["next"],
         energy=energy, data_scope_label=DATA_SCOPE_LABEL.get(bundle.data_scope, bundle.data_scope),
         violations=[{"code": v.code, "block": v.block, "message": v.message, "severity": v.severity}
                     for v in violations],

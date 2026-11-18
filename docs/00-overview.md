@@ -9,7 +9,7 @@
 | ② 사실 카드 | `facts{kind, rows, meta}` | L3 → L4 | L3 쿼리 결과 · 기존 emit_viz kind | kind 선택만 |
 | ③ RORR 분석 | `lenses[]` | L3 (+L4 한 줄) | `match_report_lens`(배치) · 그래프/시계열 쿼리 | insight 한 줄만 |
 | ④ 근거 칩 | `evidence[]` | L3 | lens sources | 없음 |
-| ④ 서하 반응 | `muse.text` | L4 | Haiku 문장 + G8 | 문장만 |
+| ④ 서하 반응 | (봉투에 없음) | 페르소나 경로 | 웹과 확장이 같이 켜졌을 때 SD 서하가 덧붙이는 별도 Muse 메시지 · G8 (D-025 · D-026) | 없음 — L4 Haiku 는 쓰지 않는다 |
 | ④ 후속 질문 | `next[]{text, energy}` | L4 | Haiku 문장, 비용은 코드 | 문장만 |
 | 헤더 잔량 · 차감 | `energy{cost, charged, reason}` | 백엔드 | `L3Bundle.outcome` + 진입 경로 | 없음 |
 | "2026 데이터 기준" | `data_scope_label` | L3 → L4 | `L3Bundle.data_scope` | 없음 |
