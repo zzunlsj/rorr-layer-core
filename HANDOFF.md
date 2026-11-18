@@ -16,6 +16,22 @@
 | 2026-11-14 | Jun + Claude | Notion·태스크 DB·온톨로지 현황 파악 → 방향성(4층 답변, Energy 원칙, 단계 P0~P2) 작성 · HTML 목업(대표 질문 3개) |
 | 2026-11-14 | Jun + Claude | 역대 서사 레이어 추가 — 2026 데이터만으론 "T1은 BLG에 약하다"로 읽힘, 서사 카드로 보충 후 P3에 역대 데이터 적재 |
 | 2026-11-18 | Jun + Claude | rorr-layer-core 생성 — 층별 문서 · 계약 스키마 · 기준 코드 · 테스트 · DDL · 이 인계 파일 |
+| 2026-11-18 | Jun + Claude | 작업을 Claude Code CLI(~/Documents/rorr-layer-core)로 이관 — push · 기존 코드 대조는 CLI에서 |
+
+## CLI 인계 (2026-11-18 — Cowork 세션 → Claude Code CLI)
+
+작업 폴더: `~/Documents/rorr-layer-core` (이 레포). Cowork 세션에서는 GitHub 접근이 막혀 push 와 기존 코드 대조를 못 했다.
+CLI 에서 처음 할 일:
+
+1. **push** — `git push -u origin main` (origin = github.com/zzunlsj/rorr-layer-core 설정됨).
+   원격에 README 같은 첫 커밋이 이미 있으면 `git pull --rebase origin main` 후 push.
+2. **기존 코드 대조** — `rorr-repos/` 에 `piecomp/l3-R-D`, `piecomp/rorr-ask-renderer` 를 클론하고
+   `CLAUDE.md §5` 의 '확인된 위치' 와 `docs/01·02·03` 의 '이식 위치' 표를 실제 경로로 고친다.
+   (`rorr-repos/` 는 `.gitignore` 에 있어 이 레포에 커밋되지 않는다)
+3. 대조하면서 계약(contracts/)이 실제 응답과 다른 곳은 `docs/decisions.md` 에 남기고 schema · contracts.py 를 같이 고친다.
+
+CLI 첫 프롬프트 예시:
+> HANDOFF.md 와 CLAUDE.md 를 읽고, rorr-repos/ 의 l3-R-D · rorr-ask-renderer 코드와 docs/01~03 의 '이식 위치' 표를 대조해서 실제 파일 경로로 고쳐줘. 계약이 실제 응답과 다르면 decisions.md 에 기록해줘.
 
 ## 다음 할 일
 
