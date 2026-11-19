@@ -19,7 +19,7 @@ Ask RORR v2(웹 rorr.club/chat 질의응답) 답변 고도화의 **층별 구현
 1. `HANDOFF.md` — 지금 어디까지 왔고 다음 할 일이 무엇인지
 2. `docs/00-overview.md` — 목업 ↔ 층 매핑, 전체 흐름
 3. `docs/05-current-vs-target.md` — 실서비스 코드의 지금 동작과 층별로 바꿀 것
-4. 맡은 층 문서 `docs/01~03-*.md` · 웹/확장(Muse) 채널 전체 방향은 `docs/06-channels-and-muse.md`
+4. 맡은 층 문서 `docs/01~03-*.md` · 웹/Extension(Muse) 채널 전체 방향은 `docs/06-channels-and-muse.md`
 5. `docs/decisions.md` — 확정/제안/미결 결정
 6. `contracts/*.schema.json` — 층 사이 계약
 

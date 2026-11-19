@@ -117,7 +117,7 @@ class MuseCue:
 
 @dataclass
 class MuseMessage:
-    """페르소나 경로 → 확장 · 웹 SD 서하. 웹 리포트 봉투와 따로 온다 (D-025 · D-026)."""
+    """페르소나 경로 → Extension · 웹 SD 서하. 웹 리포트 봉투와 따로 온다 (D-025 · D-026)."""
     kind: MuseKind                                # reply | echo(웹 검색 뒤 첨언) | proactive(선발화)
     surface: MuseSurface
     text: str                                     # 숫자 · 지표명 · 충전 권유 금지

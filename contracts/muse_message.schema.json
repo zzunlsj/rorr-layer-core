@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "페르소나 경로 → 확장 · 웹 SD 서하 MuseMessage (muse-v1.0)",
-  "description": "서하 한마디가 화면으로 가는 모양. 웹 리포트 봉투(ask-v2.0)와 따로 온다 (D-025 · D-026). 확장의 서하 대사와 웹의 SD 서하 첨언이 같은 모양을 쓴다. Energy 를 차감하지 않는다. 실서비스에서는 지금의 room:message / affect:update 가 이 자리다.",
+  "title": "페르소나 경로 → Extension · 웹 SD 서하 MuseMessage (muse-v1.0)",
+  "description": "서하 한마디가 화면으로 가는 모양. 웹 리포트 봉투(ask-v2.0)와 따로 온다 (D-025 · D-026). Extension 의 서하 대사와 웹의 SD 서하 첨언이 같은 모양을 쓴다. Energy 를 차감하지 않는다. 실서비스에서는 지금의 room:message / affect:update 가 이 자리다.",
   "type": "object",
   "required": [
     "version",
@@ -19,7 +19,7 @@
         "echo",
         "proactive"
       ],
-      "description": "reply = 확장에서 유저 발화에 답함 / echo = 웹 검색 뒤 SD 서하의 첨언 (확장이 같이 켜져 있을 때만) / proactive = 선발화"
+      "description": "reply = Extension 에서 유저 발화에 답함 / echo = 웹 검색 뒤 SD 서하의 첨언 (Extension 이 같이 켜져 있을 때만) / proactive = 선발화"
     },
     "surface": {
       "enum": [

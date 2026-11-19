@@ -105,7 +105,7 @@ def check_facts(rows: list[Any]) -> list[Violation]:
 
 def check_muse(line: str, metric_names: list[str]) -> list[Violation]:
     """G8 — 서하 대사 규칙. 웹 리포트 봉투에는 서하 대사가 없으므로 run_all 에서 부르지 않는다.
-    Muse 메시지를 만드는 페르소나 경로(웹 SD 첨언 · 확장 대사)의 출력 검사에 쓴다 (D-026)."""
+    Muse 메시지를 만드는 페르소나 경로(웹 SD 첨언 · Extension 대사)의 출력 검사에 쓴다 (D-026)."""
     if _DIGIT.search(line) or any(n in line for n in metric_names):
         return [Violation("G8", "muse", "서하 대사에 숫자·지표명")]
     return []

@@ -9,7 +9,7 @@
 - L3: [L3 프로세스](https://app.notion.com/p/406bc2f961aa8031b635c3db7fd3989a) · [[L3] 쏘넷 5.5 비용](https://app.notion.com/p/410bc2f961aa8053a8bbec1c7f5c00fc)
 - L4: [L4 프롬포트 테스트 초안](https://app.notion.com/p/40cbc2f961aa80aa8c9eec50a5576202) · [L4 하이쿠 비용 계산](https://app.notion.com/p/410bc2f961aa80518fdcf2ed468e2248) · [intent별 카드 컴포넌트 확정](https://app.notion.com/p/40fbc2f961aa80f9b865cef6c2c9db51)
 - 데이터: [LoL Ontology](https://app.notion.com/p/36dbc2f961aa80c8a1e7cd5524ab65e9) · [query 조회 가이드](https://app.notion.com/p/397bc2f961aa8071b7d2cacff9e896bc) · [neo4j schema](https://app.notion.com/p/3c8bc2f961aa80568646f214df597aa0) · [LwRC+ 기능 명세서](https://app.notion.com/p/411bc2f961aa817db12ef743eec6d48f)
-- 개발자 검토용 정리 (docs/05 · 06 을 옮긴 것): [Ask RORR/Muse 층별 구현 검토 자료](https://app.notion.com/p/41cbc2f961aa8078a1d4d8a1d030aee6) (태스크 DB — 2026-11-19 에 이 위치로 옮김. 옛 위치: [참고 페이지](https://app.notion.com/p/41cbc2f961aa81628b0dc3ab4e6e1040)) — 웹 Ask RORR 에서 전체 시스템(웹 · 확장 Muse · Overlay)으로 넓혔다. 하위에 L2 · L3 · L4 · Energy 문서. 방향성 페이지 맨 위에 링크
+- 개발자 검토용 정리 (docs/05 · 06 을 옮긴 것): [Ask RORR/Muse 층별 구현 검토 자료](https://app.notion.com/p/41cbc2f961aa8078a1d4d8a1d030aee6) (태스크 DB — 2026-11-19 에 이 위치로 옮김. 옛 위치: [참고 페이지](https://app.notion.com/p/41cbc2f961aa81628b0dc3ab4e6e1040)) — 웹 Ask RORR 에서 전체 시스템(웹 · Extension Muse · Overlay)으로 넓혔다. 하위에 L2 · L3 · L4 · Energy 문서. 방향성 페이지 맨 위에 링크
 - 레포 목록: [대화레이어시스템 github 정리](https://app.notion.com/p/41cbc2f961aa800194b7d1554579363a) — `piecomp/` 6개 레포 주소·권한. 위치 대조는 `CLAUDE.md §5`
 - DB: [마일스톤 DB](https://app.notion.com/p/311bc2f961aa81588d6cd93de70587a7) · [태스크 DB](https://app.notion.com/p/311bc2f961aa81b6a6eec6dc03ea7044)
 
