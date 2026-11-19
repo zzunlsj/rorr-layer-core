@@ -14,7 +14,7 @@
   - **Energy**: 코드상 데이터 없음 · 롤 밖 질문도 차감되는 것으로 읽힌다 — 운영 로그 확인 필요 (D-023).
 - **채널 전체 방향 (2026-11-18)**: Muse 쪽 Notion 문서(레이어 허브 · 3채널 원칙 · 발화 · 친밀도 · Fan심 · Web/Extension 초안)와 대조했다 → **`docs/06-channels-and-muse.md`** · D-024~D-031.
   - 층 구조는 유지. **봉투는 플랫폼별로 묶는다 (Jun 확정)** — 웹 = Energy 받는 리포트 봉투(ask-v2.0, `muse` 없음), 확장 = 비용 0 의 Muse 메시지. 웹의 서하 한 줄은 확장이 같이 켜졌을 때 SD 서하가 덧붙이는 별도 메시지 (D-025 · D-026). 계약 · `contracts.py` · `emit_answer` · 봉투 검사에서 `muse` 를 뺐다. 서하 쪽 계약은 **`muse_cue`(L3 가 넘기는 숫자 없는 재료) · Muse 메시지(서하 한마디의 모양)** 로 따로 뒀다 (D-035) — `python scripts/demo.py --cue`. **L3 깊이도 채널별** — 확장은 쿼리 1개 · 낮춘 모델, 웹은 사실 + lens 3종 이상 (D-034). 남은 비용 질문은 D-033.
-  - **기준은 기능 명세서, 현행 코드는 임시 (D-032, Jun 확정).** 그래서 서하 수치 금지(D-027) · 친밀도 명세 모델(D-028)은 명세 쪽으로 방향 확정. 과도기 처리와 세부 수치만 남았다.
+  - **기준은 기능 명세서, 현행 코드는 임시 (D-032, Jun 확정).** 그래서 서하 수치 금지(D-027)는 명세 쪽으로 방향 확정. **감정과 친밀도는 다른 개념이다 (D-028, 2026-11-19 Jun 정정)** — 감정(E · A · heat)은 Muse 가 경기에 대해 느끼는 순간 상태라 감쇠하고, 친밀도는 유저와 Muse 사이에 쌓여 가는 값이다. 코드의 `intimacy`(턴당 0.97 감쇠)는 감정 쪽 값이지 친밀도가 아니다.
   - **맥락 기억은 세 영역 다섯 칸** — 전체 공통 / Muse↔유저 단기 · 장기 / Ask RORR↔유저 단기 · 장기 (D-031). Notion 'Muse - 대화 History' 에 초안을 올렸다. 이 레포에 걸리는 곳은 L2 슬롯 기본값(이어 묻기)과 턴 레코드(`gist` · `card_ref`) 둘이다.
   - `game_end` 를 받는 Kafka 컨슈머를 `rorr-backend-api-v2` 에서 찾았다 — 배치 자리 후보 (D-029).
 - **계약은 고치지 않았다.** v2 봉투 · L3Bundle 을 현행 `GenRequest` / `viz` 에 어떻게 얹을지가 미결이다 (D-015 · D-016).
@@ -36,6 +36,7 @@
 | 2026-11-18 | Jun + Claude | CLI: Jun 방향 반영 — 명세가 기준 · 코드는 임시(D-032) · 플랫폼별 봉투(D-025 · D-026) · L3 깊이 채널별(D-034) · 맥락 기억 세 영역(D-031). Notion 'Muse - 대화 History' 에 기억 구조 초안 작성 |
 | 2026-11-18 | Jun + Claude | CLI: D-025 · D-026 확정 — 웹 리포트 봉투에서 `muse` 제거 (`answer_envelope.schema.json` · `contracts.py` · `l4/envelope.py` · `l4/prompt.py` · `l4/guardrails.py` · fixture · 테스트 · docs 00 · 03 · 06). G8 `check_muse` 는 페르소나 경로용으로 남김 |
 | 2026-11-19 | Jun + Claude | CLI: `muse_cue` · Muse 메시지 계약 추가 (D-035) — `contracts/muse_cue.schema.json` · `muse_message.schema.json` · `l3/muse_cue.py` · `muse/message.py`(M1~M4) · `tests/test_muse.py` · docs 02 · 06. Notion 검토 자료를 Ask RORR 에서 전체 시스템(웹 · 확장 · Overlay) 검토로 다시 정리 |
+| 2026-11-19 | Jun + Claude | CLI: 감정 ↔ 친밀도 개념 정정 (D-028) — 감쇠는 감정, 친밀도는 누적. docs/06 §3 · §7 · decisions 수정. Notion 검토 자료 위치가 태스크 DB 'Ask RORR/Muse 층별 구현 검토 자료' 로 바뀜 (sources 갱신) |
 
 ## CLI 인계 (2026-11-18 — Cowork 세션 → Claude Code CLI)
 
@@ -81,4 +82,4 @@ CLI 첫 프롬프트 예시:
 - 유료 답변에 RORR 분석 필수인가 (G10 은 지금 warn)
 - scope 우선순위 맥락 > 텍스트 > DB 확정 여부
 - 서사 카드 관리 주체 · 역대 데이터 소스와 라이선스
-- 친밀도 모델 (명세 ↔ 코드, D-028) · 웹 질문을 감정 · 관계 신호로 넣을지 (D-030) · 대화 타임라인 위치 (D-031)
+- 쌓이는 친밀도를 담는 자리 · 말투 단계가 읽는 값 (D-028) · 웹 질문을 감정 · 관계 신호로 넣을지 (D-030) · 대화 타임라인 위치 (D-031)
